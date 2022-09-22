@@ -1,0 +1,22 @@
+//Parametric UV-ligth-box for making pcbs
+
+//input parameters
+length=105;
+depth=75;
+heigth=104;        //dont change heigth
+thickness=2.5;
+pcblength=165;
+pcbdepth=125;
+holetoplength=30;
+holetopwidth=20;
+screwports=8;
+porch=30;
+
+//derived parameters
+innerlength=length-2*thickness;
+innerdepth=depth-(2*thickness);
+innerheigth=heigth-2*thickness;
+lowerlength=pcblength+2*thickness;
+lowerdepth=pcbdepth+2*thickness;
+holecoordsl=lowerlength/2;
+holecoordsd=2*lowerdepth/5;
