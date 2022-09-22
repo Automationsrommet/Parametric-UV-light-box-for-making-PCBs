@@ -1,0 +1,71 @@
+//Parametric UV-ligth-box for making pcbs
+
+//input parameters
+length=105;
+depth=75;
+heigth=104;        //dont change heigth
+thickness=2.5;
+pcblength=165;
+pcbdepth=125;
+holetoplength=30;
+holetopwidth=20;
+screwports=8;
+porch=30;
+
+//derived parameters
+innerlength=length-2*thickness;
+innerdepth=depth-(2*thickness);
+innerheigth=heigth-2*thickness;
+lowerlength=pcblength+2*thickness;
+lowerdepth=pcbdepth+2*thickness;
+holecoordsl=lowerlength/2;
+holecoordsd=2*lowerdepth/5;
+
+//code
+rotate([0,180,0])
+difference(){
+    union(){
+    translate([0,0,4*(heigth/10)])cube([depth,length, heigth/5], center =true);
+        translate([0,0,-4*(heigth/10)+thickness])cube([lowerdepth,lowerlength, heigth/5+thickness], center =true);
+        translate([0,(lowerlength/2*sqrt(2)-lowerdepth/2*sqrt(2))/2,+thickness])rotate([0,0,45])cylinder(3*heigth/5,lowerdepth/2*sqrt(2)+thickness/2,depth/2*sqrt(2),$fn=4, center =true);
+        translate([0,-(lowerlength/2*sqrt(2)-lowerdepth/2*sqrt(2))/2,+thickness])rotate([0,0,45])cylinder(3*heigth/5,lowerdepth/2*sqrt(2)+thickness/2,depth/2*sqrt(2),$fn=4, center =true);
+    
+        //bottomplate
+        translate([porch/2,0,-150])cube([lowerdepth+porch,lowerlength+5*thickness, 3], center =true);
+        
+        translate([holecoordsd,holecoordsl,-40])cube([screwports,screwports, 23], center =true);
+        translate([-holecoordsd,holecoordsl,-40])cube([screwports,screwports, 23], center =true);
+        translate([holecoordsd,-holecoordsl,-40])cube([screwports,screwports, 23], center =true);
+        translate([-holecoordsd,-holecoordsl,-40])cube([screwports,screwports, 23], center =true);
+        
+    }
+    union(){
+    translate([0,0,4*(heigth/10)-thickness])cube([innerdepth,innerlength, heigth/5], center =true);
+        translate([0,0,-4*(heigth/10)-thickness])cube([pcbdepth,pcblength, heigth/5+thickness*3], center =true);
+        translate([0,(lowerlength/2*sqrt(2)-lowerdepth/2*sqrt(2))/2,0])rotate([0,0,45])cylinder(3*heigth/5,lowerdepth/2*sqrt(2)-2*thickness,depth/2*sqrt(2)-2*thickness,$fn=4, center =true);
+        translate([0,-(lowerlength/2*sqrt(2)-lowerdepth/2*sqrt(2))/2,0])rotate([0,0,45])cylinder(3*heigth/5,lowerdepth/2*sqrt(2)-2*thickness,depth/2*sqrt(2)-2*thickness,$fn=4, center =true);
+    
+        //door
+        translate([holecoordsd,0,-85])cube([pcbdepth,pcblength, innerheigth], center =true);
+    translate([0,0,-5])cube([innerdepth,innerlength, 110], center =true);
+      
+      translate([0,(holecoordsl+4),-28])rotate([-45,0,0])cube([190,15, 9], center =true);
+      translate([0,-(holecoordsl+4),-28])rotate([+45,0,0])cube([190,15, 9], center =true);  
+    
+        translate([holecoordsd,holecoordsl,-108])cube([3,3, 150], center =true);
+        translate([-holecoordsd,holecoordsl,-108])cube([3,3, 150], center =true);
+        translate([holecoordsd,-holecoordsl,-108])cube([3,3, 150], center =true);
+        translate([-holecoordsd,-holecoordsl,-108])cube([3,3, 150], center =true);
+        
+        translate([0,-45,35])rotate([0,0,90])cube([4,190, 8], center =true);
+        translate([holecoordsd,0,35])rotate([0,0,0])cube([4,190, 8], center =true);
+        translate([-holecoordsd,0,35])rotate([0,0,0])cube([4,190, 8], center =true);
+
+
+//switch hole    
+cube([holetopwidth,holetoplength ,180], center =true);
+//wire holes 
+  translate([0,-30,42])rotate([90,0,0])cylinder(60, 3,3, center =true); 
+translate([0,-30,45])rotate([90,0,0])cylinder(60, 3,3, center =true);  
+    }
+}
